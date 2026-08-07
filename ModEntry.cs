@@ -11,11 +11,7 @@ namespace RobinOvertime
 {
     /// <summary>右键罗宾时询问是否加班补款:付 建造费×2 的加班费 → 剩余工期减半;剩最后一天则立即完工;点"不用了"回原版对话。</summary>
     public class ModEntry : Mod
-    {
-        /// <summary>记在建筑 modData 上的键,值=当天日期(TotalDays),右键补款当天只问一次,第二天重置。</summary>
-        internal const string AskedDayKey = "XiePe.RobinOvertime/AskedDay";
-
-        /// <summary>静态引用,供 Harmony 补丁类(无 Mod 实例上下文)访问日志与翻译。</summary>
+    {        /// <summary>静态引用,供 Harmony 补丁类(无 Mod 实例上下文)访问日志与翻译。</summary>
         private static IMonitor ModMonitor;
 
         /// <summary>静态翻译器引用(同上)。</summary>
@@ -156,9 +152,6 @@ namespace RobinOvertime
         /// <summary>右键补款的回答处理:是 → 扣款、减半天数或立即完工;否 → 放行原版 NPC.checkAction(默认对话)。</summary>
         private static void OnRobinAnswered(NPC robin, Farmer who, GameLocation location, Building building, int fee, string buildingName, string answer)
         {
-            // 记"当天已问",当天右键不再追问(第二天重置)
-            building.modData[AskedDayKey] = Game1.Date.TotalDays.ToString();
-
             if (answer != "Yes")
             {
                 // 点"不用了":回到原版默认对话(罗宾当前无可说内容时原版也默认"不能对话",行为一致)
@@ -288,11 +281,6 @@ namespace RobinOvertime
             if (target == null)
                 return true;
 
-            // 当天已问过这个建筑 → 放行原版对话(右键补款当天只问一次,第二天重置)
-            if (target.modData.TryGetValue(ModEntry.AskedDayKey, out string askedDay) && askedDay == Game1.Date.TotalDays.ToString())
-                return true;
-
-            // 注意:这里不预打标记 —— 回答(是/否)后才标记,见 OnRobinAnswered
             __result = true; // 本次右键已被我们的对话消费
             ModEntry.AskOvertimeViaRobin(__instance, who, l, target);
             return false;

@@ -1,7 +1,7 @@
 ﻿{
   "Name": "Robin Overtime (罗宾加班)",
   "Author": "XiePe",
-  "Version": "1.3.2",
+  "Version": "1.3.3",
   "Description": "右键罗宾时询问是否加班补款：付 2 倍建造费，剩余工期减半（剩最后一天则立即完工）；点不用了回到原版对话。",
   "UniqueID": "XiePe.RobinOvertime",
   "EntryDll": "RobinOvertime.dll",
