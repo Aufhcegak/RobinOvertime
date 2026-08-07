@@ -1,0 +1,22 @@
+{
+  "question": "{{buildingName}} is under construction. In a hurry? The overtime fee is {{fee}}g - pay it and it'll be finished by tomorrow morning!",
+  "payOption": "Here's the money, hurry it up",
+  "cancelOption": "No, keep to the schedule",
+  "paid": "Robin took {{fee}}g for overtime. {{buildingName}} will be finished by tomorrow morning!",
+  "notEnoughMoney": "You can't afford the {{fee}}g overtime fee. Go earn some more money first!",
+  "overtimeQuestion": "Hey, checking up on progress? {{buildingName}} is still being built. Want me to work overtime? {{fee}}g will cut the remaining time in half - or if there's just one day left, it'll be done today!",
+  "overtimeYes": "Take the money, hurry it up",
+  "overtimeNo": "No thanks",
+  "reducedTime": "Robin took {{fee}}g. {{buildingName}}'s remaining construction time is halved!",
+  "finishedEarly": "Robin took {{fee}}g. {{buildingName}} is finished immediately!",
+  "farmhandNotice": "{{buildingName}}: the host is deciding whether to have Robin work overtime.",
+  "cfg.section": "Robin Overtime Settings",
+  "cfg.auto-prompt": "Auto-prompt on farm",
+  "cfg.auto-prompt.tooltip": "After building/upgrading, show an automatic question dialog when you're back on the farm.",
+  "cfg.robin-click": "Right-click Robin",
+  "cfg.robin-click.tooltip": "Right-clicking Robin first asks whether to pay overtime to halve the remaining build time.",
+  "cfg.fee-multiplier": "Overtime fee multiplier",
+  "cfg.fee-multiplier.tooltip": "Overtime fee = building (or upgrade) build cost x this multiplier. Default 2.0.",
+  "cfg.farm-only": "Only prompt on farm",
+  "cfg.farm-only.tooltip": "Only show the auto-prompt while you're on a farm (main farm / Ginger Island), so it won't interrupt you in the mines or town."
+}

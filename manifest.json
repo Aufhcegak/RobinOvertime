@@ -1,0 +1,16 @@
+{
+  "Name": "Robin Overtime (罗宾加班)",
+  "Author": "XiePe",
+  "Version": "1.2.0",
+  "Description": "新建/升级建筑时罗宾会追问要不要加班：付 2 倍建造费，第二天一早完工；不付则按原版工期。",
+  "UniqueID": "XiePe.RobinOvertime",
+  "EntryDll": "RobinOvertime.dll",
+  "MinimumApiVersion": "4.0.0",
+  "UpdateKeys": [],
+  "Dependencies": [
+    {
+      "UniqueID": "spacechase0.GenericModConfigMenu",
+      "IsRequired": false
+    }
+  ]
+}
