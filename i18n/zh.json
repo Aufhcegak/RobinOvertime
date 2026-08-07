@@ -1,22 +1,13 @@
 {
-  "question": "{{buildingName}} 正在施工。赶工期吗?加班费 {{fee}}g,付了的话明天一早就能建完!",
-  "payOption": "行,钱给你,快点建",
-  "cancelOption": "不用了,按计划来",
-  "paid": "罗宾收下 {{fee}}g 加班费,{{buildingName}} 明天一早就能完工!",
-  "notEnoughMoney": "钱不够付 {{fee}}g 的加班费,先挣点钱再说吧!",
   "overtimeQuestion": "哟,来看进度啊?{{buildingName}} 还在建呢。要加个班不?{{fee}}g,工期直接砍半;只剩最后一天的话,付了今天就完工!",
   "overtimeYes": "加钱,快点建",
   "overtimeNo": "不用了",
   "reducedTime": "罗宾收下 {{fee}}g,{{buildingName}} 剩余工期减半!",
   "finishedEarly": "罗宾收下 {{fee}}g,{{buildingName}} 立即完工!",
-  "farmhandNotice": "{{buildingName}}:主机正在考虑要不要让罗宾加班。",
+  "notEnoughMoney": "钱不够付 {{fee}}g 的加班费,先挣点钱再说吧!",
   "cfg.section": "罗宾加班设置",
-  "cfg.auto-prompt": "自动弹窗询问",
-  "cfg.auto-prompt.tooltip": "建造/升级后,回到农场时自动弹出"要不要加班"的问题框。",
   "cfg.robin-click": "右键罗宾补款",
   "cfg.robin-click.tooltip": "右键罗宾时优先询问是否补交加班费减半天数。",
   "cfg.fee-multiplier": "加班费倍数",
-  "cfg.fee-multiplier.tooltip": "加班费 = 建筑(或升级项)建造费 × 该倍数,默认 2.0。",
-  "cfg.farm-only": "只在农场弹窗",
-  "cfg.farm-only.tooltip": "自动弹窗只在玩家位于农场(主农场/姜岛)时触发,避免在矿洞、镇上突然定身打断操作。"
+  "cfg.fee-multiplier.tooltip": "加班费 = 建筑(或升级项)建造费 × 该倍数,默认 2.0。"
 }
