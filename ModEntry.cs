@@ -4,6 +4,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.Buildings;
+using StardewValley.Menus;
 using StardewValley.TokenizableStrings;
 
 namespace RobinOvertime
@@ -37,6 +38,10 @@ namespace RobinOvertime
             harmony.Patch(
                 original: AccessTools.Method(typeof(NPC), nameof(NPC.checkAction)),
                 prefix: new HarmonyMethod(typeof(RobinDialoguePatcher), nameof(RobinDialoguePatcher.Prefix))
+            );
+            harmony.Patch(
+                original: AccessTools.Method(typeof(CarpenterMenu), nameof(CarpenterMenu.robinConstructionMessage)),
+                postfix: new HarmonyMethod(typeof(CarpenterMenuPatcher), nameof(CarpenterMenuPatcher.RobinConstructionPostfix))
             );
         }
 
@@ -84,6 +89,25 @@ namespace RobinOvertime
                 foreach (Building building in location.buildings)
                 {
                     if (IsRobinConstruction(building))
+                        return building;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>按蓝图 ID 精确找"刚建/刚升级"的在建建筑(新建按 buildingType,升级按 upgradeName 匹配)。</summary>
+        internal static Building FindBuildingForBlueprint(string blueprintId)
+        {
+            foreach (GameLocation location in Game1.locations)
+            {
+                if (!location.IsFarm && location.Name != "IslandFarm")
+                    continue;
+
+                foreach (Building building in location.buildings)
+                {
+                    if (!IsRobinConstruction(building))
+                        continue;
+                    if (building.buildingType.Value == blueprintId || building.upgradeName.Value == blueprintId)
                         return building;
                 }
             }
@@ -272,6 +296,32 @@ namespace RobinOvertime
             __result = true; // 本次右键已被我们的对话消费
             ModEntry.AskOvertimeViaRobin(__instance, who, l, target);
             return false;
+        }
+    }
+
+    /// <summary>Harmony 补丁:建造/升级完成时,把原版自动弹的"建造中"对话替换成加班问题框(顺着建造流程直接弹,不用再右键罗宾)。</summary>
+    internal static class CarpenterMenuPatcher
+    {
+        internal static void RobinConstructionPostfix(CarpenterMenu __instance)
+        {
+            if (!Context.IsWorldReady || !Context.IsMainPlayer)
+                return;
+            if (__instance.Blueprint == null || __instance.Blueprint.MagicalConstruction)
+                return; // 魔法建筑瞬建,不弹
+
+            Building target = ModEntry.FindBuildingForBlueprint(__instance.Blueprint.Id);
+            if (target == null)
+                return;
+
+            // 替换原版"建造中"对话:此时原版 DrawDialogue 刚把对话压入 CurrentDialogue 并弹框,
+            // 这里 createQuestionDialogue 会用加班问题框覆盖它;玩家点"不用了"时 CurrentDialogue
+            // 里那一段会作为原版默认对话正常弹出
+            ModEntry.AskOvertimeViaRobin(
+                Game1.getCharacterFromName("Robin"),
+                Game1.player,
+                Game1.currentLocation,
+                target
+            );
         }
     }
 }
