@@ -4,6 +4,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.Buildings;
+using StardewValley.TokenizableStrings;
 
 namespace RobinOvertime
 {
@@ -188,12 +189,13 @@ namespace RobinOvertime
             }
         }
 
-        /// <summary>正在建的那个东西的名字:升级中的话显示升级目标名,否则显示建筑名。</summary>
+        /// <summary>正在建的那个东西的名字:升级中的话显示升级目标名,否则显示建筑名。名字是 token 文本,必须 TokenParser 解析成显示文本(原版 BuildingSkinMenu.cs:96 同款)。</summary>
         internal static string GetBuildingDisplayName(Building building)
         {
             if (TryGetUpgradeData(building, out BuildingData upgradeData))
-                return upgradeData.Name;
-            return building.GetData()?.Name ?? building.buildingType.Value;
+                return TokenParser.ParseText(upgradeData.Name);
+            BuildingData data = building.GetData();
+            return TokenParser.ParseText(data?.Name ?? building.buildingType.Value);
         }
 
         /// <summary>钱数:升级中的话按升级项的原价算,否则按建筑原价算。</summary>
@@ -246,8 +248,9 @@ namespace RobinOvertime
                 return true; // 对齐原版 NPC.checkAction 的前置检查
             if (Game1.eventUp || Game1.fadeToBlack)
                 return true;
-            if (Game1.CurrentEvent != null || __instance.CurrentDialogue.Count > 0)
-                return true; // 节日/剧情对话优先:不要盖掉原版节日对话或待定剧情对话
+            // 注意:不再放行"罗宾有待定对话"—— 刚建完建筑罗宾会压入一段完工对话,
+            // 放行的话要连点好几段原版对话才轮到加班框;加班框必须绝对优先
+            // (节日时罗宾不在店建不了建筑,FindActiveConstruction 自然为空,不会盖节日对话)
 
             // 弹窗/对话进行中(activeClickableMenu 非空):吞掉本次右键,避免问题框与
             // 原版对话在连点右键时交替覆盖(此时放行原版会用默认对话盖掉加班问题框)
