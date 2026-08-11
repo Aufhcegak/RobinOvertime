@@ -9,7 +9,7 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <EnableModDeploy>false</EnableModDeploy>
     <EnableModZip>false</EnableModZip>
-    <Version>1.0.0</Version>
+    <Version>1.4.0</Version>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
@@ -24,6 +24,18 @@
     <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.4.0" />
     <!-- Harmony 补丁库（与 SMAPI 4.5 内置的 0Harmony.dll 2.2.2 对齐；运行时由 SMAPI 提供，不随 Mod 分发） -->
     <PackageReference Include="Lib.Harmony" Version="2.2.2" />
+  </ItemGroup>
+
+  <!-- logic_test 无头测试工程读取 internal 纯逻辑 -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="logic_test" />
+  </ItemGroup>
+
+  <!-- logic_test 是独立控制台工程,排除出主库编译(否则 Program.cs 顶级语句被 glob 进库导致 CS8805) -->
+  <ItemGroup>
+    <Compile Remove="logic_test\**" />
+    <None Remove="logic_test\**" />
+    <Content Remove="logic_test\**" />
   </ItemGroup>
 
   <ItemGroup>

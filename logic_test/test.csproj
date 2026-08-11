@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <AssemblyName>logic_test</AssemblyName>
+    <RootNamespace>logic_test</RootNamespace>
+    <!-- 机器上可能没有 .NET 6 运行时,允许滚到已装的更高版本运行时 -->
+    <RollForward>LatestMajor</RollForward>
+    <GameDir>D:\steam\steamapps\common\Stardew Valley\</GameDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 引用主工程:被测的 internal 纯逻辑靠主工程里的 InternalsVisibleTo("logic_test") 暴露 -->
+    <ProjectReference Include="..\RobinOvertime.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- 编译期需要:OvertimeLogic.IsRobinBuilder(BuildingData) 绑定 StardewValley.GameData 里的类型;
+         BuildingData 的字段布局涉及 MonoGame(Vector2),一并引用。全部 Private=true 复制到输出。 -->
+    <Reference Include="StardewValley.GameData">
+      <HintPath>$(GameDir)StardewValley.GameData.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>$(GameDir)MonoGame.Framework.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <!-- SMAPI 用 Newtonsoft.Json 序列化联机消息,round-trip 测试按同一序列化器验证载荷 -->
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(GameDir)smapi-internal\Newtonsoft.Json.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <!-- typeof(ModEntry) 反射接线校验会加载主程序集 → 需要 SMAPI 程序集。
+         必须直接引用才会进 deps.json("reference" 类型),否则即使 dll 在输出目录
+         默认 ALC 也不解析(FileNotFoundException)。 -->
+    <Reference Include="StardewModdingAPI">
+      <HintPath>$(GameDir)StardewModdingAPI.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="SMAPI.Toolkit.CoreInterfaces">
+      <HintPath>$(GameDir)smapi-internal\SMAPI.Toolkit.CoreInterfaces.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- 无头 harness:把反射校验补丁目标所需的游戏程序集复制到输出目录(仅显式列表,不碰 System.* 自包含 dll) -->
+  <Target Name="CopyGameDlls" AfterTargets="Build">
+    <ItemGroup>
+      <GameDll Include="$(GameDir)Stardew Valley.dll;$(GameDir)StardewValley.GameData.dll;$(GameDir)StardewModdingAPI.dll;$(GameDir)MonoGame.Framework.dll;$(GameDir)xTile.dll;$(GameDir)SkiaSharp.dll;$(GameDir)Steamworks.NET.dll;$(GameDir)Lidgren.Network.dll;$(GameDir)BmFont.dll;$(GameDir)TextCopy.dll;$(GameDir)GalaxyCSharp.dll;$(GameDir)GalaxyCSharpGlue.dll" />
+      <GameDll Include="$(GameDir)smapi-internal\0Harmony.dll;$(GameDir)smapi-internal\Newtonsoft.Json.dll;$(GameDir)smapi-internal\SMAPI.Toolkit.CoreInterfaces.dll" />
+    </ItemGroup>
+    <Copy SourceFiles="@(GameDll)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

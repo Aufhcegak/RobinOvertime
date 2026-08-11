@@ -1,5 +1,7 @@
 {
   "overtimeQuestion": "{{buildingName}} 还没建完。赶着用吗?加 {{fee}}g,我连夜赶工,工期减半——只剩最后一天的话,今天就能交工。",
+  "houseUpgradeQuestion": "房子还在动工,赶着住吗?加 {{fee}}g,我连夜赶工,工期减半——只剩最后一天的话,今天就能交工。",
+  "houseUpgradeName": "咱家的房子",
   "overtimeYes": "行,那就拜托你了",
   "overtimeNo": "不用了,慢慢来",
   "reducedTime": "{{buildingName}} 工期减半!{{fee}}g 没白花,罗宾连夜赶工呢。",
@@ -7,7 +9,7 @@
   "notEnoughMoney": "钱不够付 {{fee}}g 的加班费。",
   "cfg.section": "罗宾加班设置",
   "cfg.robin-click": "右键罗宾补款",
-  "cfg.robin-click.tooltip": "右键罗宾时优先询问是否补交加班费减半天数。",
+  "cfg.robin-click.tooltip": "右键罗宾时优先询问是否付加班费减半天数。",
   "cfg.fee-multiplier": "加班费倍数",
-  "cfg.fee-multiplier.tooltip": "加班费 = 建筑(或升级项)建造费 × 该倍数,默认 2.0。"
+  "cfg.fee-multiplier.tooltip": "加班费 = 建筑/建筑升级/房屋升级的费用 × 该倍数,默认 2.0。"
 }

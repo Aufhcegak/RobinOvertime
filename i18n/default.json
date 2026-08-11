@@ -1,5 +1,7 @@
 {
   "overtimeQuestion": "{{buildingName}} isn't finished yet. In a rush? Pay {{fee}}g and I'll work through the night - the remaining time gets halved, or if there's just one day left, it'll be done today.",
+  "houseUpgradeQuestion": "Your house is still under construction. In a rush to move in? Pay {{fee}}g and I'll work through the night - the remaining time gets halved, or if there's just one day left, it'll be done today.",
+  "houseUpgradeName": "your house",
   "overtimeYes": "Sure, thanks",
   "overtimeNo": "No, take your time",
   "reducedTime": "{{buildingName}}'s remaining time is halved! Robin is working through the night.",
@@ -9,5 +11,5 @@
   "cfg.robin-click": "Right-click Robin",
   "cfg.robin-click.tooltip": "Right-clicking Robin first asks whether to pay overtime to halve the remaining build time.",
   "cfg.fee-multiplier": "Overtime fee multiplier",
-  "cfg.fee-multiplier.tooltip": "Overtime fee = building (or upgrade) build cost x this multiplier. Default 2.0."
+  "cfg.fee-multiplier.tooltip": "Overtime fee = building / building upgrade / house upgrade cost x this multiplier. Default 2.0."
 }
